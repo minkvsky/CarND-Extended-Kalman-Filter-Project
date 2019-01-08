@@ -39,6 +39,13 @@ FusionEKF::FusionEKF() {
   noise_ax = 9;
   noise_ay = 9;
 
+  ekf_.x_ = VectorXd(4);
+  ekf_.P_ = MatrixXd(4, 4);
+  ekf_.F_ = MatrixXd(4, 4);
+  ekf_.Q_ = MatrixXd(4, 4);
+  ekf_.H_ = MatrixXd(4, 4);
+  ekf_.R_ = MatrixXd(4, 4);
+
   ekf_.F_ << 1, 0, 1, 0,
              0, 1, 0, 1,
              0, 0, 1, 0,
