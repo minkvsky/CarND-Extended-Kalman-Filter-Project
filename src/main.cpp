@@ -107,7 +107,7 @@ int main() {
           gt_values(3) = vy_gt;
           ground_truth.push_back(gt_values);
           
-          std::cout << "110" << std::endl;
+          // std::cout << "110" << std::endl;
           // Call ProcessMeasurement(meas_package) for Kalman filter
           fusionEKF.ProcessMeasurement(meas_package);       
 
@@ -129,7 +129,7 @@ int main() {
           estimations.push_back(estimate);
 
           VectorXd RMSE = tools.CalculateRMSE(estimations, ground_truth);
-          std::cout << "CalculateRMSE done" << std::endl;
+          // std::cout << "CalculateRMSE done" << std::endl;
 
           json msgJson;
           msgJson["estimate_x"] = p_x;
