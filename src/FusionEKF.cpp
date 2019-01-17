@@ -87,7 +87,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       // ekf_.R_ = MatrixXd(3, 3);
       ekf_.R_ = R_radar_;
       // ekf_.H_ = MatrixXd(3, 4);
-      Hj_ = tools.CalculateJacobian(measurement_pack.raw_measurements_);
+      Hj_ = tools.CalculateJacobian(ekf_.x_);
       ekf_.H_ = Hj_;
 
 
