@@ -51,17 +51,17 @@ FusionEKF::FusionEKF() {
   Hj_ << 1, 1, 0, 0,
          1, 1, 0, 0,
          1, 1, 1, 1;            
-  // ekf_.F_ = MatrixXd::Identity(4,4);
-  // ekf_.P_ = MatrixXd::Identity(4,4);   
+  ekf_.F_ = MatrixXd::Identity(4,4);
+  ekf_.P_ = MatrixXd::Identity(4,4);   
 
-  ekf_.F_ << 1, 0, 1, 0,
-             0, 1, 0, 1,
-             0, 0, 1, 0,
-             0, 0, 0, 1;    
-  ekf_.P_ << 1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1000, 0,
-            0, 0, 0, 1000;
+  // ekf_.F_ << 1, 0, 1, 0,
+  //            0, 1, 0, 1,
+  //            0, 0, 1, 0,
+  //            0, 0, 0, 1;    
+  // ekf_.P_ << 1, 0, 0, 0,
+  //           0, 1, 0, 0,
+  //           0, 0, 1000, 0,
+  //           0, 0, 0, 1000;
 }
 
 /**
@@ -83,24 +83,24 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     // first measurement
     cout << "EKF: " << endl;
     ekf_.x_ = VectorXd(4);
-    ekf_.x_ << 1, 1, 1, 1;
+    // ekf_.x_ << 1, 1, 1, 1;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
       // TODO: Convert radar from polar to cartesian coordinates 
       //         and initialize state.
-      // ekf_.x_ << measurement_pack.raw_measurements_[0] * cos(measurement_pack.raw_measurements_[1]),
-      //           measurement_pack.raw_measurements_[0] * sin(measurement_pack.raw_measurements_[1]),
-      //           measurement_pack.raw_measurements_[2] * cos(measurement_pack.raw_measurements_[1]),
-      //           measurement_pack.raw_measurements_[2] * sin(measurement_pack.raw_measurements_[1]);
+      ekf_.x_ << measurement_pack.raw_measurements_[0] * cos(measurement_pack.raw_measurements_[1]),
+                measurement_pack.raw_measurements_[0] * sin(measurement_pack.raw_measurements_[1]),
+                measurement_pack.raw_measurements_[2] * cos(measurement_pack.raw_measurements_[1]),
+                measurement_pack.raw_measurements_[2] * sin(measurement_pack.raw_measurements_[1]);
 
-      float rho = measurement_pack.raw_measurements_(0);
-      float phi = measurement_pack.raw_measurements_(1);
-      float rho_dot = measurement_pack.raw_measurements_(2);
-      // ekf_.x_ << rho * cos(phi), rho * sin(phi), rho_dot * cos(phi), rho_dot * sin(phi);
-      ekf_.x_(0) = rho * cos(phi);
-      ekf_.x_(1) = rho * sin(phi);      
-      ekf_.x_(2) = rho_dot * cos(phi);
-      ekf_.x_(3) = rho_dot * sin(phi);
+      // float rho = measurement_pack.raw_measurements_(0);
+      // float phi = measurement_pack.raw_measurements_(1);
+      // float rho_dot = measurement_pack.raw_measurements_(2);
+      // // ekf_.x_ << rho * cos(phi), rho * sin(phi), rho_dot * cos(phi), rho_dot * sin(phi);
+      // ekf_.x_(0) = rho * cos(phi);
+      // ekf_.x_(1) = rho * sin(phi);      
+      // ekf_.x_(2) = rho_dot * cos(phi);
+      // ekf_.x_(3) = rho_dot * sin(phi);
 
  
 
