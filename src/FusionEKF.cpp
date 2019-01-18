@@ -48,9 +48,9 @@ FusionEKF::FusionEKF() {
   H_laser_ << 1, 0, 0, 0,
               0, 1, 0, 0;
 
-  Hj_ << 1, 1, 0, 0,
-         1, 1, 0, 0,
-         1, 1, 1, 1;            
+  Hj_ << 1, 0, 0, 0,
+         0, 1, 0, 0,
+         0, 0, 1, 0;            
   
 
   ekf_.F_ << 1, 0, 1, 0,
@@ -59,8 +59,8 @@ FusionEKF::FusionEKF() {
              0, 0, 0, 1;    
   ekf_.P_ << 1, 0, 0, 0,
             0, 1, 0, 0,
-            0, 0, 100, 0,
-            0, 0, 0, 1000;
+            0, 0, 10, 0,
+            0, 0, 0, 10;
 }
 
 /**
@@ -91,18 +91,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
                 measurement_pack.raw_measurements_[0] * sin(measurement_pack.raw_measurements_[1]),
                 measurement_pack.raw_measurements_[2] * cos(measurement_pack.raw_measurements_[1]),
                 measurement_pack.raw_measurements_[2] * sin(measurement_pack.raw_measurements_[1]);
-
-      // float rho = measurement_pack.raw_measurements_(0);
-      // float phi = measurement_pack.raw_measurements_(1);
-      // float rho_dot = measurement_pack.raw_measurements_(2);
-      // // ekf_.x_ << rho * cos(phi), rho * sin(phi), rho_dot * cos(phi), rho_dot * sin(phi);
-      // ekf_.x_(0) = rho * cos(phi);
-      // ekf_.x_(1) = rho * sin(phi);      
-      // ekf_.x_(2) = rho_dot * cos(phi);
-      // ekf_.x_(3) = rho_dot * sin(phi);
-
- 
-
 
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
