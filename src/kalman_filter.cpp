@@ -56,8 +56,15 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
    * TODO: update the state by using Extended Kalman Filter equations
    */
   VectorXd z_pred = H_ * x_;
-  double phi = z_pred[1];
-  z_pred[1] = atan2(sin(phi), cos(phi));
+  
+  if (fabs(z_pred[0]) < 0.0001){
+    z_pred[1] = 0
+    z_pred[2] = 0
+  }else{
+    double phi = z_pred[1];
+    z_pred[1] = atan2(sin(phi), cos(phi));
+  }
+  
   VectorXd y = z - z_pred;
   // normalize
   if (y(1) > M_PI) {
