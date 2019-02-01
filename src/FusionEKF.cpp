@@ -48,16 +48,8 @@ FusionEKF::FusionEKF() {
   H_laser_ << 1, 0, 0, 0,
               0, 1, 0, 0;
 
-  // Hj_ << 1, 0, 0, 0,
-  //        0, 1, 0, 0,
-  //        0, 0, 1, 0;            
-  
 
-  ekf_.F_ << 1, 0, 1, 0,
-             0, 1, 0, 1,
-             0, 0, 1, 0,
-             0, 0, 0, 1;
-  // ekf_.F_ = MatrixXd::Identity(4, 4)
+  ekf_.F_ = MatrixXd::Identity(4, 4)
   ekf_.P_ << 1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 1000, 0,
@@ -150,7 +142,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       ekf_.H_ = MatrixXd(3, 4);
       Hj_ = tools.CalculateJacobian(ekf_.x_);
       ekf_.H_ = Hj_;    
-    ekf_.Update(measurement_pack.raw_measurements_);
+    ekf_.UpdateEKF(measurement_pack.raw_measurements_);
 
   } else {
     // TODO: Laser updates
@@ -158,7 +150,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       ekf_.R_ = R_laser_;
       ekf_.H_ = MatrixXd(2, 4);
       ekf_.H_ = H_laser_;
-    ekf_.UpdateEKF(measurement_pack.raw_measurements_);
+    ekf_.Update(measurement_pack.raw_measurements_);
 
   }
 
